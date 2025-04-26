@@ -1,15 +1,5 @@
 # Zed Unofficial Windows Build
 
-**⚠️ WARNING: THIS IS AN UNOFFICIAL BUILD ⚠️**
-
-This is an **unofficial** build of the Zed editor for Windows (x64), compiled directly from the source code. It is **not** provided or supported by the official Zed Industries team. Use it at your own risk.
-
-Official Zed Repository: [https://github.com/zed-industries/zed](https://github.com/zed-industries/zed)
-
----
-
-# Zed Unofficial Windows Build
-
 **⚠️ WARNING: THIS IS AN UNOFFICICIAL BUILD ⚠️**
 
 This is an **unofficial** build of the Zed editor for Windows (x64), compiled directly from the source code. It is **not** provided or supported by the official Zed Industries team. Use it at your own risk.
