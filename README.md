@@ -34,7 +34,7 @@ Official Zed Repository: [https://github.com/zed-industries/zed](https://github.
 
 *   **Platform:** Windows x64
 *   **Built From Commit:** `d832b8e68750ab2a0084aed645c324f2b16d2b2e`
-*   **Build Date:** `2025-04-26` (e.g., `2024-08-15`)
+*   **Build Date:** `2025-04-26`
 
 ---
 
