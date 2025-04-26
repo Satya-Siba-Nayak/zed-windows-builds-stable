@@ -1,0 +1,20 @@
+# Ignore packaged build archives - these belong in Releases, not Git history
+*.zip
+*.tar.gz
+*.7z
+
+# Ignore macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Ignore Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Ignore common temporary files
+*~
+*.tmp
+*.bak
+*.swp
