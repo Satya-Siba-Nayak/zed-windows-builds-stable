@@ -8,12 +8,6 @@ Official Zed Repository: [https://github.com/zed-industries/zed](https://github.
 
 ---
 
-## How to Use
-
-1.  Run `zed.exe`.
-
----
-
 # Zed Unofficial Windows Build
 
 **⚠️ WARNING: THIS IS AN UNOFFICICIAL BUILD ⚠️**
