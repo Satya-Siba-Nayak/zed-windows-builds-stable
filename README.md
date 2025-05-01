@@ -1,35 +1,37 @@
-# Zed Unofficial Windows Build
+# Unofficial Zed Editor Windows Builds (Automated)
 
-**⚠️ WARNING: THIS IS AN UNOFFICICIAL BUILD ⚠️**
+[![Build Status](https://github.com/Satya-Siba-Nayak/zed-windows-builds-stable/actions/workflows/build-zed-windows-auto.yml/badge.svg)](https://github.com/Satya-Siba-Nayak/zed-windows-builds-stable/actions/workflows/build-zed-windows-auto.yml)
 
-This is an **unofficial** build of the Zed editor for Windows (x64), compiled directly from the source code. It is **not** provided or supported by the official Zed Industries team. Use it at your own risk.
+This repository provides automated, unofficial builds of the [Zed code editor](https://zed.dev/) for Windows.
 
-Official Zed Repository: [https://github.com/zed-industries/zed](https://github.com/zed-industries/zed)
+**Disclaimer:** Zed does not yet officially release builds for Windows. These builds are provided for testing and convenience only. They are compiled directly from the official Zed source code corresponding to their stable release tags but are **not** officially supported by Zed Industries.
 
----
+## How it Works
+
+This repository uses a GitHub Actions workflow (`.github/workflows/build-zed-windows-auto.yml`) that automatically:
+1.  Checks the official [zed-industries/zed repository](https://github.com/zed-industries/zed) for the latest stable release tag on a schedule.
+2.  If a new stable release is found, it checks out the corresponding source code.
+3.  Builds the Zed editor for Windows using the official source code.
+4.  Packages the resulting `zed.exe` into a `.zip` archive.
+5.  Creates a new release on *this* repository, tagged with the official Zed version, and uploads the `.zip` file as a downloadable asset.
+
+## Downloads
+
+You can download the latest unofficial Windows build from the **[Releases Page](https://github.com/Satya-Siba-Nayak/zed-windows-builds-stable/releases)** of this repository.
+
+**Installation:**
+1.  Go to the [Releases Page](https://github.com/Satya-Siba-Nayak/zed-windows-builds-stable/releases).
+2.  Download the `.zip` file attached to the latest release (e.g., `zed-windows-vX.Y.Z.zip`).
+3.  Extract the contents of the `.zip` file to a folder of your choice.
+4.  Run the `zed.exe` executable directly. No installation required!
+
 ## Licensing
 
-**IMPORTANT:** Zed is dual-licensed. The core editor components are generally licensed under the **Apache License 2.0**, while server-side and collaborative components are licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.
+* **Zed Editor:** The Zed editor itself is licensed under multiple licenses: **GNU AGPLv3**, **Apache License 2.0**, and **GNU GPLv3**. Please refer to the [official Zed repository](https://github.com/zed-industries/zed) for the full license details (`LICENSE-AGPL`, `LICENSE-APACHE`, `LICENSE-GPL`). The builds provided here are subject to these licenses.
+* **Build Workflow:** The GitHub Actions workflow file and any other scripts specific to *this* repository are provided under the [MIT License](./LICENSE) (You should add an MIT license file if you choose this).
 
-*   This binary distribution includes copies of **all relevant license files** (`LICENSE-APACHE`, `LICENSE-AGPL`, etc.) from the source repository.
-*   By using this software, you agree to comply with the terms of **both** the Apache 2.0 and AGPLv3 licenses, as applicable to the different parts of the software.
-*   The complete corresponding source code for this build can be found at the official Zed repository, specifically at the commit hash listed above.
+## Contributing
 
----
-
-## How to Use
-
-1.  Run `zed.exe`.
+While the builds are automated, suggestions for improving the workflow process are welcome! Please feel free to open an issue or submit a pull request to this repository. For issues related to the Zed editor itself, please report them to the [official Zed issue tracker](https://github.com/zed-industries/zed/issues).
 
 ---
-
-## Known Issues / Limitations
-
-*   **Unofficial:** This build does not receive official support. Report issues to the repository where you downloaded this build, not the official Zed issue tracker, unless you can reproduce the issue with an official build (when available) or confirm it's an upstream bug.
-*   **Stability:** May be less stable than official releases (when they become available).
-*   **Collaborative Features:** Due to the AGPL license on server components, collaborative features might not work correctly unless you have set up the required backend dependencies (Postgres, LiveKit) locally. This build likely does *not* bundle these dependencies, and using Zed's official collaboration servers might have implications under the AGPL.
-*   **Updates:** You will need to manually download newer unofficial builds or wait for official releases; this build will not auto-update.
-
----
-
-*This build is provided "as is" without warranty of any kind. Please refer to the included license files for full terms.*
