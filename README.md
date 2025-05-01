@@ -1,27 +1,5 @@
 # Zed Unofficial Windows Build
 
-**⚠️ WARNING: THIS IS AN UNOFFICIAL BUILD ⚠️**
-
-This is an **unofficial** build of the Zed editor for Windows (x64), compiled directly from the source code. It is **not** provided or supported by the official Zed Industries team. Use it at your own risk.
-
-Official Zed Repository: [https://github.com/zed-industries/zed](https://github.com/zed-industries/zed)
-
----
-
-## Build Details
-
-
-
----
-
-## How to Use
-
-1.  Run `zed.exe`.
-
----
-
-# Zed Unofficial Windows Build
-
 **⚠️ WARNING: THIS IS AN UNOFFICICIAL BUILD ⚠️**
 
 This is an **unofficial** build of the Zed editor for Windows (x64), compiled directly from the source code. It is **not** provided or supported by the official Zed Industries team. Use it at your own risk.
@@ -29,15 +7,6 @@ This is an **unofficial** build of the Zed editor for Windows (x64), compiled di
 Official Zed Repository: [https://github.com/zed-industries/zed](https://github.com/zed-industries/zed)
 
 ---
-
-## Build Details
-
-*   **Platform:** Windows x64
-*   **Built From Commit:** `d832b8e68750ab2a0084aed645c324f2b16d2b2e`
-*   **Build Date:** `2025-04-26`
-
----
-
 ## Licensing
 
 **IMPORTANT:** Zed is dual-licensed. The core editor components are generally licensed under the **Apache License 2.0**, while server-side and collaborative components are licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.
