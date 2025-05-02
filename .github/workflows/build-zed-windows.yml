@@ -19,9 +19,12 @@ jobs:
       new_tag: ${{ steps.check_releases.outputs.latest_zed_tag }}
 
     steps:
-      # 0. Enable Long Path Support for Windows (Crucial Fix)
-      - name: Enable Long Paths Support
-        uses: mszczepaniak/windows-long-paths-support@v1
+      # 0. Enable Long Path Support for Windows via Registry
+      - name: Enable Long Paths Support (Registry)
+        shell: pwsh
+        run: |
+          Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -Force
+          Write-Host "LongPathsEnabled registry key set to 1."
 
       # 1. Check for New Zed Releases
       - name: Check for New Zed Releases
@@ -98,7 +101,6 @@ jobs:
         if: steps.check_releases.outputs.should_build == 'true'
         uses: Swatinem/rust-cache@v2
         with:
-          # Use a slightly different cache key if needed after long path fix, but likely okay
           key: ${{ runner.os }}-longpaths-cargo-${{ steps.check_releases.outputs.latest_zed_tag }}-${{ hashFiles('**/Cargo.lock') }}
 
       # 5. Build Zed (Release)
