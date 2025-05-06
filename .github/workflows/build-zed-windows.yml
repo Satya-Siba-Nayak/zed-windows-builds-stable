@@ -2,7 +2,14 @@ name: Automated Zed Windows Build
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    # Run every 6 hours on Tuesday, Wednesday, Thursday
+    - cron: '0 */6 * * 2-4'
+    # Run every 12 hours on Monday and Friday
+    - cron: '0 */12 * * 1,5'
+    # Run once on Saturday
+    - cron: '0 0 * * 6'
+    # Run once on Sunday
+    - cron: '0 0 * * 0'
   workflow_dispatch:
 
 jobs:
@@ -170,3 +177,4 @@ jobs:
           generateReleaseNotes: false
           allowUpdates: false
           makeLatest: true
+
