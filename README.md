@@ -1,29 +1,30 @@
-# Unofficial Zed Editor Windows Builds (Automated)
+Here is the complete README.md file:
 
-[![Build Status](https://github.com/Satya-Siba-Nayak/zed-windows-builds-stable/actions/workflows/build-zed-windows-auto.yml/badge.svg)](https://github.com/Satya-Siba-Nayak/zed-windows-builds-stable/actions/workflows/build-zed-windows-auto.yml)
+# Unofficial Zed Editor Windows Builds (Automated) 🚀
 
 This repository provides automated, unofficial builds of the [Zed code editor](https://zed.dev/) for Windows.
 
 **Disclaimer:** Zed does not yet officially release builds for Windows. These builds are provided for testing and convenience only. They are compiled directly from the official Zed source code corresponding to their stable release tags but are **not** officially supported by Zed Industries.
 
-## How it Works
+## Unofficial Zed Editor Builds for Windows
+
+Get the latest unofficial Windows build from the **[Releases Page](https://github.com/Satya-Siba-Nayak/zed-windows-builds-stable/releases)** of this repository!
+
+### Quick Start
+
+1. 📥 Go to the [Releases Page](https://github.com/Satya-Siba-Nayak/zed-windows-builds-stable/releases).
+2. 🔽 Download the `.zip` file attached to the latest release (e.g., `zed-windows-vX.Y.Z.zip`).
+3. 📁 Extract the contents of the `.zip` file to a folder of your choice.
+4. 👉 Run the `zed.exe` executable directly. No installation required! 🚀
+
+## Build Workflow
 
 This repository uses a GitHub Actions workflow (`.github/workflows/build-zed-windows-auto.yml`) that automatically:
-1.  Checks the official [zed-industries/zed repository](https://github.com/zed-industries/zed) for the latest stable release tag on a schedule.
-2.  If a new stable release is found, it checks out the corresponding source code.
-3.  Builds the Zed editor for Windows using the official source code.
-4.  Packages the resulting `zed.exe` into a `.zip` archive.
-5.  Creates a new release on *this* repository, tagged with the official Zed version, and uploads the `.zip` file as a downloadable asset.
-
-## Downloads
-
-You can download the latest unofficial Windows build from the **[Releases Page](https://github.com/Satya-Siba-Nayak/zed-windows-builds-stable/releases)** of this repository.
-
-**Installation:**
-1.  Go to the [Releases Page](https://github.com/Satya-Siba-Nayak/zed-windows-builds-stable/releases).
-2.  Download the `.zip` file attached to the latest release (e.g., `zed-windows-vX.Y.Z.zip`).
-3.  Extract the contents of the `.zip` file to a folder of your choice.
-4.  Run the `zed.exe` executable directly. No installation required!
+1. ⏰ Checks the official [zed-industries/zed repository](https://github.com/zed-industries/zed) for the latest stable release tag on a schedule.
+2. 👀 If a new stable release is found, it checks out the corresponding source code.
+3. 💻 Builds the Zed editor for Windows using the official source code.
+4. 📦 Packages the resulting `zed.exe` into a `.zip` archive.
+5. 📦 Creates a new release on *this* repository, tagged with the official Zed version, and uploads the `.zip` file as a downloadable asset.
 
 ## Licensing
 
@@ -35,3 +36,5 @@ You can download the latest unofficial Windows build from the **[Releases Page](
 While the builds are automated, suggestions for improving the workflow process are welcome! Please feel free to open an issue or submit a pull request to this repository. For issues related to the Zed editor itself, please report them to the [official Zed issue tracker](https://github.com/zed-industries/zed/issues).
 
 ---
+
+**Note:** This project is not affiliated with Zed Industries. The unofficial builds provided here are for testing and convenience purposes only.
