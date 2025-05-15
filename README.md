@@ -2,7 +2,7 @@ Here is the complete README.md file:
 
 # Unofficial Zed Editor Windows Builds (Automated) 🚀
 
-[![Build status](https://github.com/ssnay/zed-windows-builds-stable/actions/workflows/build-zed-windows.yml/badge.svg)](https://github.com/ssnay/zed-windows-builds-stable/actions/workflows/build-zed-windows.yml)
+[![Build status](https://github.com/Satya-Siba-Nayak/zed-windows-builds-stable/blob/main/.github/workflows/build-zed-windows.yml/badge.svg)](https://github.com/Satya-Siba-Nayak/zed-windows-builds-stable/blob/main/.github/workflows/build-zed-windows.yml)
 
 This repository provides automated, unofficial builds of the [Zed code editor](https://zed.dev/) for Windows.
 
