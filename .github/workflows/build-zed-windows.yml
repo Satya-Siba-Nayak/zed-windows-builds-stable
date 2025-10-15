@@ -1,180 +1,68 @@
-name: Automated Zed Windows Build
+name: Final Zed Windows Build and Archival Notice
 
 on:
-  schedule:
-    # Run every 6 hours on Tuesday, Wednesday, Thursday
-    - cron: '0 */6 * * 2-4'
-    # Run every 12 hours on Monday and Friday
-    - cron: '0 */12 * * 1,5'
-    # Run once on Saturday
-    - cron: '0 0 * * 6'
-    # Run once on Sunday
-    - cron: '0 0 * * 0'
-  workflow_dispatch:
+  workflow_dispatch: # Allows for one final manual run
 
 jobs:
   build-and-release:
     runs-on: windows-latest
     permissions:
       contents: write
-      packages: none
-      actions: read
-      security-events: none
-
-    outputs:
-      new_build_triggered: ${{ steps.check_releases.outputs.should_build }}
-      new_tag: ${{ steps.check_releases.outputs.latest_zed_tag }}
 
     steps:
-      # 0a. Enable Long Path Support for Windows via Registry
-      - name: Enable Long Paths Support (Registry)
-        shell: pwsh
-        run: |
-          Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -Force
-          Write-Host "LongPathsEnabled registry key set to 1."
-
-      # 0b. Configure Git to handle long paths
-      - name: Configure Git for Long Paths
-        shell: bash # Use bash for git command consistency
-        run: |
-          git config --global core.longpaths true
-          echo "Git configured for long paths."
-
-      # 1. Check for New Zed Releases
-      - name: Check for New Zed Releases
-        id: check_releases
-        shell: pwsh
-        run: |
-          try {
-            $zedUri = "https://api.github.com/repos/zed-industries/zed/releases/latest"
-            Write-Host "Fetching latest Zed release from $zedUri"
-            $zedResponse = Invoke-RestMethod -Uri $zedUri -Headers @{"Accept"="application/vnd.github.v3+json"} -ErrorAction Stop
-            $latestZedTag = $zedResponse.tag_name
-            $latestZedReleaseUrl = $zedResponse.html_url
-            Write-Host "Latest official Zed stable tag: $latestZedTag"
-            Write-Host "Official release URL: $latestZedReleaseUrl"
-
-            if (-not $latestZedTag -or $latestZedTag -notmatch '^v\d+\.\d+\.\d+$') {
-              Write-Error "Failed to get a valid latest stable tag from Zed repo (format vX.Y.Z)."
-              exit 1
-            }
-            if (-not $latestZedReleaseUrl) {
-              Write-Warning "Could not extract official release URL."
-            }
-
-            $selfRepo = "${{ github.repository }}"
-            $selfUri = "https://api.github.com/repos/$selfRepo/releases/latest"
-            $latestSelfTag = $null
-            try {
-              Write-Host "Fetching latest release from $selfUri"
-              $selfResponse = Invoke-RestMethod -Uri $selfUri -Headers @{"Accept"="application/vnd.github.v3+json"} -ErrorAction SilentlyContinue
-              if ($?) {
-                  $latestSelfTag = $selfResponse.tag_name
-                  Write-Host "Latest release tag in this repo: $latestSelfTag"
-              } else {
-                  Write-Host "No previous releases found in this repo. Will proceed with build."
-              }
-            } catch {
-              Write-Warning "Could not fetch latest release from this repo (maybe none exist yet?). Error: $($_.Exception.Message)"
-              Write-Host "Assuming no previous release, proceeding with build."
-            }
-
-            if ($latestZedTag -ne $latestSelfTag) {
-              Write-Host "New Zed release ($latestZedTag) found. Proceeding with build."
-              echo "should_build=true" >> $env:GITHUB_OUTPUT
-              echo "latest_zed_tag=$latestZedTag" >> $env:GITHUB_OUTPUT
-              echo "latest_zed_release_url=$latestZedReleaseUrl" >> $env:GITHUB_OUTPUT
-            } else {
-              Write-Host "No new Zed stable release found (This repo already has $latestZedTag). Skipping build."
-              echo "should_build=false" >> $env:GITHUB_OUTPUT
-            }
-          } catch {
-            Write-Error "Error checking releases: $($_.Exception.Message)"
-            echo "should_build=false" >> $env:GITHUB_OUTPUT
-            exit 1
-          }
-
-      # 2. Checkout Zed Source Code (Specific Tag)
-      - name: Checkout Zed Source Code (Specific Tag)
-        if: steps.check_releases.outputs.should_build == 'true'
-        id: checkout_zed
+      - name: Checkout Zed Source Code for Final Build (v0.208.4)
         uses: actions/checkout@v4
         with:
           repository: zed-industries/zed
-          ref: ${{ steps.check_releases.outputs.latest_zed_tag }}
+          ref: v0.208.4
 
-      # 3. Set up Rust
       - name: Set up Rust
-        if: steps.check_releases.outputs.should_build == 'true'
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
 
-      # 4. Cache Cargo Dependencies
       - name: Cache Cargo Dependencies
-        if: steps.check_releases.outputs.should_build == 'true'
         uses: Swatinem/rust-cache@v2
         with:
-          key: ${{ runner.os }}-longpaths-cargo-${{ steps.check_releases.outputs.latest_zed_tag }}-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-v0.208.4-${{ hashFiles('**/Cargo.lock') }}
 
-      # 5. Build Zed (Release)
-      - name: Build Zed (Release)
-        if: steps.check_releases.outputs.should_build == 'true'
+      - name: Build Zed (Release v0.208.4)
         run: cargo build --release
 
-      # 6. Package Executable
       - name: Package Executable
-        if: steps.check_releases.outputs.should_build == 'true'
         id: package
         shell: pwsh
         run: |
           $exePath = "target/release/zed.exe"
-          $zipFileName = "zed-windows-${{ steps.check_releases.outputs.latest_zed_tag }}.zip"
+          $zipFileName = "zed-windows-v0.208.4.zip"
           if (Test-Path $exePath) {
             Compress-Archive -Path $exePath -DestinationPath $zipFileName
-            echo "Packaged $exePath into $zipFileName"
+            echo "Packaged final build into $zipFileName"
             echo "ASSET_PATH=$zipFileName" >> $env:GITHUB_OUTPUT
             echo "ASSET_NAME=$zipFileName" >> $env:GITHUB_OUTPUT
           } else {
-            echo "Error: Built executable not found at $exePath"
+            echo "Error: Could not find built executable at $exePath"
             exit 1
           }
 
-      # 7. Create GitHub Release
-      - name: Create GitHub Release
-        if: steps.check_releases.outputs.should_build == 'true'
+      - name: Create Final GitHub Release (v0.208.4)
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: "${{ steps.package.outputs.ASSET_PATH }}"
-          artifactName: "${{ steps.package.outputs.ASSET_NAME }}"
-          tag: ${{ steps.check_releases.outputs.latest_zed_tag }}
-          name: "Zed Windows ${{ steps.check_releases.outputs.latest_zed_tag }}"
+          tag: "v0.208.4"
+          name: "Final Unofficial Build - Zed for Windows v0.208.4"
           body: |
-            **Unofficial Zed Build for Windows**
+            **This is the final unofficial build from this repository.** 🎉
 
-            This is an automated build of the Zed code editor for Windows, corresponding to the official Zed release tag **${{ steps.check_releases.outputs.latest_zed_tag }}**.
+            Official Zed builds for Windows are now available! A huge thank you to everyone who used and supported this project.
 
-            *Disclaimer: Zed does not officially release builds for Windows yet. These builds are provided for testing and convenience, compiled directly from the official source code for the tagged release.*
+            **Please head over to the [Official Zed Releases Page](https://github.com/zed-industries/zed/releases) to get the latest versions.**
 
-            ---
-
-            **Installation:**
-
-            1.  Download the `${{ steps.package.outputs.ASSET_NAME }}` file below.
-            2.  Extract the contents of the `.zip` file to a folder of your choice.
-            3.  Run the `zed.exe` executable directly. No installation required!
+            This repository will now be archived. Thank you for your support!
 
             ---
 
-            **Official Release Notes:**
-
-            For details on what's new in this version, please see the official Zed release notes:
-            [${{ steps.check_releases.outputs.latest_zed_tag }} Release Notes](${{ steps.check_releases.outputs.latest_zed_release_url }})
-
-            ---
-            *Built automatically via GitHub Actions.*
-          generateReleaseNotes: false
-          allowUpdates: false
+            *This final build corresponds to the official Zed release tag **v0.208.4***.
+          allowUpdates: true # Allow updating the release if it already exists
           makeLatest: true
-
